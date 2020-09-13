@@ -6,8 +6,11 @@ const Homepage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      // prevent bug api & bypass http on https site
+      const prefixApi = 'https://cors-anywhere.herokuapp.com/';
+      const apiUrl = `${prefixApi}http://backendexample.sanbercloud.com/api/movies`;
       try {
-        const { data } = await axios.get('http://backendexample.sanbercloud.com/api/movies');
+        const { data } = await axios.get(apiUrl);
         console.log(data)
         setDataMovies(data);
       } catch (err) {
