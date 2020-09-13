@@ -1,39 +1,59 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { AuthContext } from '../contexts/Authorization';
+import { Redirect } from 'react-router-dom';
 
 const MovieList = () => {
   const [dataMovies, setDataMovies] = useState(null);
   const [disableSubmit, setDisableSubmit] = useState(false);
   const [input, setInput] = useState({
-    name: '',
-    price: '',
-    weight: 0,
+    imageUrl: '',
+    title: '',
+    description: '',
+    year: 0,
+    duration: 0,
+    genre: '',
+    rating: 0,
     id: null,
   });
-  const inputName = useRef(null);
-  const inputPrice = useRef(null);
-  const inputWeight = useRef(null);
 
-  const fetchData = async () => {
-    try {
-      const { data } = await axios.get('http://backendexample.sanbercloud.com/api/movies');
-      setDataMovies(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const [isLogin] = useContext(AuthContext);
+
+  // prevent bug api & bypass http on https site
+  const prefixApi = 'https://cors-anywhere.herokuapp.com/';
+  const apiUrl = `${prefixApi}http://backendexample.sanbercloud.com/api/movies`;
+
+  const iImageUrl = useRef();
+  const iTitle = useRef();
+  const iDescription = useRef();
+  const iYear = useRef();
+  const iDuration = useRef();
+  const iGenre = useRef();
+  const iRating = useRef();
   
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(apiUrl);
+        setDataMovies(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
     if (dataMovies === null) {
       fetchData();
     }
-  }, [dataMovies]);
+  }, [dataMovies, apiUrl]);
 
   const handleChangeInput = () => {
     setInput({
-      name: inputName.current.value,
-      price: inputPrice.current.value,
-      weight: inputWeight.current.value,
+      imageUrl: iImageUrl.current.value,
+      title: iTitle.current.value,
+      description: iDescription.current.value,
+      year: iYear.current.value,
+      duration: iDuration.current.value,
+      genre: iGenre.current.value,
+      rating: iRating.current.value,
       id: input.id,
     });
   };
@@ -41,6 +61,13 @@ const MovieList = () => {
   const handleEditBtn = (id) => {
     const row = dataMovies.find((v) => v.id === id);
     setInput({
+      imageUrl: row.image_url,
+      title: row.title,
+      description: row.description,
+      year: row.year,
+      duration: row.duration,
+      genre: row.genre,
+      rating: row.rating,
       name: row.name,
       price: row.price,
       weight: row.weight,
@@ -50,7 +77,7 @@ const MovieList = () => {
 
   const handleDeleteBtn = async (id) => {
     try {
-      await axios.delete(`http://backendexample.sanbercloud.com/api/movies/${id}`);
+      await axios.delete(`${apiUrl}/${id}`);
       const newData = dataMovies.filter((v) => v.id !== id);
       setDataMovies(newData);
     } catch (err) {
@@ -63,17 +90,25 @@ const MovieList = () => {
     setDisableSubmit(true);
     const {
       id,
-      name,
-      price,
-      weight,
+      imageUrl,
+      title,
+      description,
+      year,
+      duration,
+      genre,
+      rating,
     } = input;
     try {
       if (id === null) {
         // add data
-        const { data: newRow } = await axios.post('http://backendexample.sanbercloud.com/api/movies', {
-          name,
-          price,
-          weight,
+        const { data: newRow } = await axios.post(apiUrl, {
+          image_url: imageUrl,
+          title,
+          description,
+          year,
+          duration,
+          genre,
+          rating,
         });
 
         setDataMovies([
@@ -82,10 +117,14 @@ const MovieList = () => {
         ]);
       } else {
         // update
-        const { data: updatedRow } = await axios.put(`http://backendexample.sanbercloud.com/api/movies/${id}`, {
-          name,
-          price,
-          weight,
+        const { data: updatedRow } = await axios.put(`${apiUrl}/${id}`, {
+          image_url: imageUrl,
+          title,
+          description,
+          year,
+          duration,
+          genre,
+          rating,
         });
         const newData = dataMovies.map((v) => {
           if (v.id === id) {
@@ -98,9 +137,13 @@ const MovieList = () => {
       }
 
       setInput({
-        name: '',
-        price: '',
-        weight: 0,
+        imageUrl: '',
+        title: '',
+        description: '',
+        year: 0,
+        duration: 0,
+        genre: '',
+        rating: 0,
         id: null,
       });
       setDisableSubmit(false);
@@ -109,14 +152,7 @@ const MovieList = () => {
     }
   };
 
-  const iImageUrl = useRef();
-  const iTitle = useRef();
-  const iDescription = useRef();
-  const iYear = useRef();
-  const iDuration = useRef();
-  const iGenre = useRef();
-  const iRating = useRef();
-  return (
+  return !isLogin ? <Redirect to="/login" /> : (
     <section>
       <h1>Tabel Harga Buah</h1>
       <table className="custom">
@@ -164,34 +200,34 @@ const MovieList = () => {
       <form style={{ textAlign: 'center' }} onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Title</label>
-          <input type="text" ref={iTitle} />
+          <input type="text" ref={iTitle} required value={input.title} onChange={handleChangeInput} />
         </div>
         <div className="form-group">
           <label>Description</label>
-          <textarea ref={iDescription} />
+          <textarea ref={iDescription} required value={input.description} onChange={handleChangeInput} />
         </div>
         <div className="form-group">
           <label>Year</label>
-          <input type="number" ref={iYear} />
+          <input type="number" ref={iYear} required value={input.year} onChange={handleChangeInput} />
         </div>
         <div className="form-group">
           <label>Duration</label>
-          <input type="number" ref={iDuration} />
+          <input type="number" ref={iDuration} required value={input.duration} onChange={handleChangeInput} />
         </div>
         <div className="form-group">
           <label>Genre</label>
-          <input type="text" ref={iGenre} />
+          <input type="text" ref={iGenre} required value={input.genre} onChange={handleChangeInput} />
         </div>
         <div className="form-group">
           <label>Rating</label>
-          <input type="number" min="0" max="10" ref={iRating} />
+          <input type="number" min="0" max="10" ref={iRating} required value={input.rating} onChange={handleChangeInput} />
         </div>
         <div className="form-group">
           <label>ImageUrl</label>
-          <input type="text" ref={iImageUrl} />
+          <input type="text" ref={iImageUrl} required value={input.imageUrl} onChange={handleChangeInput} />
         </div>
         <div className="form-group">
-          <button type="submit" disabled={disableSubmit}>Save</button>
+          <button type="submit" className="btn block" disabled={disableSubmit}>Save</button>
         </div>
       </form>
     </section>

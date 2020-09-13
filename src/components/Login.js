@@ -1,7 +1,7 @@
 import React, { createRef, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../contexts/Authorization';
-import Homepage from './Homepage';
+import MovieList from './MovieList';
 
 const Login = () => {
   const iUsername = createRef();
@@ -14,10 +14,10 @@ const Login = () => {
     if (iUsername.current.value === 'elfay' && iPassword.current.value === 'ganteng') {
       setIsLogin(true);
     } else {
-      alert('username/password salah');
+      alert('Username/Password salah');
     }
   };
-  return isLogin ? <Redirect to={Homepage} /> : (
+  return isLogin ? <Redirect to={MovieList} /> : (
     <section>
       <div className="row jcc aic">
         <form onSubmit={doLogin}>
@@ -30,7 +30,7 @@ const Login = () => {
             <input type="password" ref={iPassword} />
           </div>
           <div className="form-group">
-            <button type="submit">Login</button>
+            <button type="submit" className="btn">Login</button>
           </div>
         </form>
       </div>
