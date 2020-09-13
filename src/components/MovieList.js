@@ -10,8 +10,8 @@ const MovieList = () => {
     imageUrl: '',
     title: '',
     description: '',
-    year: 0,
-    duration: 0,
+    year: 2020,
+    duration: 120,
     genre: '',
     rating: 0,
     id: null,
@@ -140,8 +140,8 @@ const MovieList = () => {
         imageUrl: '',
         title: '',
         description: '',
-        year: 0,
-        duration: 0,
+        year: 2020,
+        duration: 120,
         genre: '',
         rating: 0,
         id: null,
@@ -208,7 +208,7 @@ const MovieList = () => {
         </div>
         <div className="form-group">
           <label>Year</label>
-          <input type="number" ref={iYear} required value={input.year} onChange={handleChangeInput} />
+          <input type="number" ref={iYear} required value={input.year} min="1980" onChange={handleChangeInput} />
         </div>
         <div className="form-group">
           <label>Duration</label>

@@ -1,7 +1,6 @@
 import React, { createRef, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../contexts/Authorization';
-import MovieList from './MovieList';
 
 const Login = () => {
   const iUsername = createRef();
@@ -17,7 +16,7 @@ const Login = () => {
       alert('Username/Password salah');
     }
   };
-  return isLogin ? <Redirect to={MovieList} /> : (
+  return isLogin ? <Redirect to="/movie-list" /> : (
     <section>
       <div className="row jcc aic">
         <form onSubmit={doLogin}>
