@@ -1,0 +1,168 @@
+body {
+  background-image: url(images/pattern.jpg);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  margin: 0px;
+}
+
+header {
+  background-color: white;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  z-index: 1;
+}
+
+img.img {
+  max-width: 100%;
+}
+
+#logo {
+  width: 200px;
+}
+
+nav ul {
+  margin-left: 40px;
+  margin-right: 40px;
+  padding-left: 0;
+}
+
+nav li {
+  list-style: none;
+  display: inline-block;
+}
+nav li a {
+  text-decoration: none;
+  padding: 0 20px;
+}
+
+section {
+  margin-left: 200px;
+  margin-right: 200px;
+  background-color: white;
+  position: relative;
+  top: 70px;
+  padding: 20px;
+  margin-bottom: 100px;
+}
+
+h1 {
+  text-align: center;
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+#article-list, .row {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  display: flex;
+  flex: 1 0 100%;
+  flex-wrap: wrap;
+  margin-top: calc(var(--bs-gutter-y) * -1);
+  margin-right: calc(var(--bs-gutter-x)/ -2);
+  margin-left: calc(var(--bs-gutter-x)/ -2);
+}
+
+#article-list > *,
+.row>* {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  padding-right: calc(var(--bs-gutter-x)/ 2);
+  padding-left: calc(var(--bs-gutter-x)/ 2);
+  margin-top: var(--bs-gutter-y);
+}
+
+#article-list > div {
+  flex: 0 0 auto;
+  width: 50%;
+}
+
+.article {
+  border-bottom: 1px solid lightgrey;
+}
+
+h5 {
+  text-align: center;
+}
+
+footer {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  background-color: black;
+  color: white;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.jcc {
+  justify-content: center;
+}
+
+.aic {
+  align-items: center;
+}
+
+table.custom {
+  border: 0;
+  width: 100%;
+  border: 1px solid #333;
+}
+
+table.custom thead th {
+  background-color: #EEE;
+}
+
+table.custom th,
+table.custom td {
+  border: 1px solid #333;
+}
+
+table.custom tbody td {
+  background-color: orange;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: .5rem;
+  text-align: left;
+}
+.form-group input,
+.form-group select,
+.form-group textarea,
+.form-group button {
+  display: block;
+  width: 100%;
+  min-height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,
+  box-shadow .15s ease-in-out;
+}
